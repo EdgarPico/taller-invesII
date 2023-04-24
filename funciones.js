@@ -209,33 +209,49 @@ const surveyJson = {
     {
      "type": "dropdown",
      "name": "question11",
-     "title": "Que nivel consideras que tienes de español ?",
+     "title": "Ha venido _________ estudiante?",
      "choices": [
       {
-       "value": "10",
-       "text": "Buen nivel"
+       "value": "20",
+       "text": "algún"
       },
       {
        "value": "10",
-       "text": "Medio nivel"
+       "text": "alguien"
       },
       {
        "value": "15",
-       "text": "Bajo nivel"
+       "text": "alguno"
       }
      ]
     },
     {
-        "type": "text",
+        "type": "dropdown",
         "name": "question12",
-        "title": "Hola"
-    }
+        "title": "Ayer Andres no _________ sus libros",
+        "choices": [
+         {
+          "value": "5",
+          "text": "Traho"
+         },
+         {
+          "value": "15",
+          "text": "trajo"
+         },
+         {
+          "value": "10",
+          "text": "escucho"
+         }
+        ]
+       }
    ],
    "title": "Preguntas-2"
   }
  ]
 
 };
+
+
 
 const survey = new Survey.Model(surveyJson);
 survey.focusFirstQuestionAutomatic = false;
@@ -248,10 +264,40 @@ function alertResults (sender) {
     const intArray = arrValores.map(str => parseInt(str));
     const sum = intArray.reduce((accumulator, currentValue) => accumulator + currentValue);
     resultado(sum);
+
     alert(sum);
 }
+
 function resultado(puntaje){
+    const content = document.getElementById('dispResults');
+    content.innerHTML = `
+    <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+      Revisar resultados
+    </button>
     
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="staticBackdropLabel">Resultados de encuesta</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body"> 
+            `+
+            "Su puntaje obtenido es: "+ puntaje +" pts" 
+          +`</div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" id="btnResultado">Understood</button>
+          </div>
+        </div>
+      </div>
+    </div> `;
+    const boton = document.getElementById('btnResultado');
+    boton.addEventListener('click',displayDA(puntaje));
+}
+function displayDA(puntaje){
+    createGraphic(puntaje);
 }
 
 survey.onComplete.add(alertResults);

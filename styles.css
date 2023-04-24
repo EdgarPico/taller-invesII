@@ -1,3 +1,8 @@
 body{
     background-color: rgba(3, 65, 89,35);
 }
+#dispResults{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
