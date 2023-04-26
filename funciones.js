@@ -13,6 +13,7 @@ const surveyJson = {
      "type": "dropdown",
      "name": "question1",
      "title": "Ha venido _______ estudiante ?",
+     isRequired: true,
      "choices": [
       {
        "value": "10",
@@ -264,8 +265,6 @@ function alertResults (sender) {
     const intArray = arrValores.map(str => parseInt(str));
     const sum = intArray.reduce((accumulator, currentValue) => accumulator + currentValue);
     resultado(sum);
-
-    alert(sum);
 }
 
 function resultado(puntaje){
@@ -293,8 +292,6 @@ function resultado(puntaje){
         </div>
       </div>
     </div> `;
-    //const boton = document.getElementById('btnResultado');
-    //boton.addEventListener('click',displayDA(puntaje));
 }
 function displayDA(puntaje){
   localStorage.setItem('puntaje', puntaje);
