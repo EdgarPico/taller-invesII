@@ -288,16 +288,17 @@ function resultado(puntaje){
           +`</div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary" id="btnResultado">Understood</button>
+            <button type="button" class="btn btn-primary" id="btnResultado" onClick="displayDA(`+puntaje+`)">Graficas</button>
           </div>
         </div>
       </div>
     </div> `;
-    const boton = document.getElementById('btnResultado');
-    boton.addEventListener('click',displayDA(puntaje));
+    //const boton = document.getElementById('btnResultado');
+    //boton.addEventListener('click',displayDA(puntaje));
 }
 function displayDA(puntaje){
-    createGraphic(puntaje);
+  localStorage.setItem('puntaje', puntaje);
+  window.open('resultados.html', '_blank');
 }
 
 survey.onComplete.add(alertResults);
