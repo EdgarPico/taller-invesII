@@ -1,5 +1,5 @@
 body{
-    background-color: rgba(3, 65, 89,35);
+    background-color: rgba(3, 65, 89,0.35);
 }
 #dispResults{
     display: flex;
