@@ -265,6 +265,7 @@ function alertResults (sender) {
     const intArray = arrValores.map(str => parseInt(str));
     
     const sum = intArray.reduce((accumulator, currentValue) => accumulator + currentValue);
+
     resultado(sum);
 }
 
@@ -299,8 +300,10 @@ function displayDA(puntaje){
   window.open('../pagination/resultados.html', '_blank');
 }
 
+
 survey.onComplete.add(alertResults);
 
 $(function() {
     $("#surveyContainer").Survey({ model: survey });
 });
+

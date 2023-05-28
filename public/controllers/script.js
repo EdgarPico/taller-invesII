@@ -1,8 +1,40 @@
+var puntaje = localStorage.getItem('puntaje');
+//createForm(puntaje)
+function createForm(puntaje){
+  const content=document.getElementById('usuarios')
+  content.innerHTML = ` 
+  <form id="user-form">
+      <input type="hidden" name="puntaje" value="${puntaje}">
+      <button type="submit" class="btn btn-warning">Guardar Historial</button>
+  </form>`
+}
+
+
+const createUserScore = () =>{
+  const userForm = document.getElementById('user-form')
+  userForm.onsubmit = async (e) =>{
+    e.preventDefault()
+    const formData = new FormData(userForm)
+   // console.log(formData.get('puntaje'));
+    const data = Object.fromEntries(formData.entries())
+    console.log(data);
+    await fetch('/users',{
+      method: 'POST',
+      body: JSON.stringify(data),
+      headers:{
+        'Content-Type': 'application/json'
+      }
+    })
+  }
+  alert('El puntaje ha sido almacenado')
+}
+
+const cargarGraficas = () =>{
 // Get the canvas element
 var canvas1 = document.getElementById('myChart');
 var canvas2 = document.getElementById('myChart2');
 
-var puntaje = localStorage.getItem('puntaje');
+
 
 // Create a new Chart object
 var myChart = new Chart(canvas1, {
@@ -65,3 +97,11 @@ var myChart = new Chart(canvas2, {
     }
   }
 });
+}
+
+window.onload = () =>{
+  var puntaje = localStorage.getItem('puntaje');
+  cargarGraficas()
+  createForm(puntaje)
+  createUserScore()
+}
