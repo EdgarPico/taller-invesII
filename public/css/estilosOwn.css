@@ -37,3 +37,27 @@ body {
 #usuarios{
   padding: 25px;
 }
+#user-form ,#nameU::placeholder{
+  text-decoration: #eee;
+}
+#body-results{
+  background-color: #b4b8bf;
+}
+#list {
+  display: none;
+  margin-top: 10px;
+}
+#fileTBL {
+  display: none;
+  margin-top: 10px;
+}
+.graficos-view{
+  display: flex;
+  justify-content: center;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 5%;
+}
+#graNiveles{
+  padding: 13%;
+}
