@@ -19,22 +19,26 @@
     <div id="usuarios" class="container mt-4 "></div>
 
     <div class="container mt-2" id="list">
+      <h3>Historial de usuarios</h3>
         <table class="table table-dark table-hover" id="listTBL">
             <thead>
               <tr>
                 <th scope="col">Puntaje</th>
                 <th scope="col">Rango Obtenido</th>
                 <th scope="col">Nombre</th>
+                <th scope="col">Materia</th>
+                <th scope="col">Accion</th>
+
               </tr>
             </thead>
             <tbody id="bodyTable"></tbody>
         </table>
-
+        <h3>Historial de archivos</h3>
         <form action="/files" method="post" id="formArchivo" enctype="multipart/form-data">
           <input type="file" name="file">
           <button type="submit">Cargar Archivo</button>
       </form>
-
+      
         <table class="table table-dark table-hover" id="listTBLF">
             <thead>
               <tr>
@@ -44,6 +48,7 @@
             </thead>
             <tbody id="bodyTableF"></tbody>
         </table>
+        <h3>Graficos generados con R</h3>
       <div class="graficos-view">
         <img src="../images/graficaBar.png" alt="Grafico de barras" width="40%">
         <img src="../images/grafica.png" alt="Grafico de puntos" width="40%">

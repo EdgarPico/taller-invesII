@@ -40,7 +40,10 @@ app.use(express.static(publicPath));
 // Rutas para la creacion de cuentas
 app.post('/users',user.create)
 app.get('/users',user.list)
+app.delete('/users/:id',user.destroy)
+
 app.get('/archivos',archivo.list)
+
 
 app.get('/', (req, res) => {
   const filePath = path.join(__dirname, 'index.html');
@@ -84,13 +87,15 @@ app.post('/files', upload.single('file'), async (req, res) => {
 
 app.post('/graphs', (req, res) => {
   const data = req.body;
-  //console.log(data);
+  console.log(data);
   //Aqui vamos a modificar o crear el nuevo excel para las graficas
   const objetoPro = JSON.parse(JSON.stringify(data))
 
   const datos = objetoPro.map(item => ({
     puntaje: item.puntaje,
-    nombre: item.nombre
+    nombre: item.nombre,
+    materia: item.materia
+
   }));
 
   const convertirACSV = (objeto) => {

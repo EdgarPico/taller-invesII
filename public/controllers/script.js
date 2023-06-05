@@ -1,10 +1,12 @@
 var puntaje = localStorage.getItem('puntaje');
+var materia = localStorage.getItem('materia');
 //createForm(puntaje)
-function createForm(puntaje,rango){
+function createForm(puntaje,rango,materia){
   const content=document.getElementById('usuarios')
   content.innerHTML = ` 
   <form id="user-form" enctype="multipart/form-data">
       <input type="hidden" name="puntaje" value="${puntaje}">
+      <input type="hidden" name="materia" value="${materia}">
       <div class="row mb-3">
         <label class="col-sm-2 col-form-label">Nombre Encuestado</label>
         <div class="col-sm-4">
@@ -12,9 +14,9 @@ function createForm(puntaje,rango){
         </div>
       </div>
       <div class="row mb-3">
-        <label class="col-sm-2 col-form-label">Rango Obtenido</label>
+        <label class="col-sm-2 col-form-label" hidden>Rango Obtenido</label>
           <div class="col-sm-4">
-          <input type="number" name="posrango" value="${rango}" readonly class="form-control bg-secondary text-white">
+          <input type="hidden" name="posrango" value="${rango}" readonly class="form-control bg-secondary text-white">
         </div>
       </div>
       <button type="submit" class="btn btn-warning" onclick="createUserScore()">Guardar Historial</button>
@@ -40,6 +42,7 @@ const createUserScore = () =>{
     })
   }
   alert('El puntaje ha sido almacenado')
+  getUsers()
 }
 /*
 const loadFile = () => {
@@ -86,12 +89,16 @@ function mostFiles(){
 const getUsers = async () => {
   const response = await fetch('/users')
   const users = await response.json()
-  //console.log(users);
+  console.log(users);
   const template = userLi => `
         <tr>
-          <td>${userLi.puntaje}</td>
-          <td>${userLi.posrango}</td>
-          <td>${userLi.nombre}</td>
+            <td>${userLi.puntaje}</td>
+            <td>${userLi.posrango}</td>
+            <td>${userLi.nombre}</td>
+            <td>${userLi.materia}</td>
+          <td>
+            <button data-id="${userLi._id}" class="btn btn-danger">Eliminar</button>
+          </td>
         </tr>
   `
   const userList = document.getElementById('listTBL')
@@ -99,7 +106,25 @@ const getUsers = async () => {
 
   bodyTbl.innerHTML = users.map(user => template(user)).join('')
 
+  users.forEach(user => {
+    const userNode = document.querySelector(`[data-id="${user._id}"]`)
+    userNode.onclick = async e =>{
+      await fetch(`/users/${user._id}`,{
+        method: 'DELETE',
+      })
+      //userNode.parentNode.remove()
+      getUsers()
+      alert('Usuario eliminado')
+    }
+  })
 }
+
+function closeModal() {
+  // Eliminar el modal del documento
+  const modal = document.querySelector('.modal');
+  modal.parentNode.removeChild(modal);
+}
+
 const makeGraphs = async () => {
 
   const res = await fetch('/users')
@@ -121,10 +146,9 @@ const makeGraphs = async () => {
       console.log(error);
     })
 
-
  }
 
-window.onre
+//window.onre
 
 const getFiles = async () => {
   const response = await fetch('/archivos')
@@ -264,8 +288,10 @@ var myChart = new Chart(canvas2, {
 
 window.onload = () =>{
   var puntaje = localStorage.getItem('puntaje');
+  var materia = localStorage.getItem('materia');
+  console.log('soy la : ',materia);
   cargarGraficas()
-  createForm(puntaje,crearRango(puntaje))
+  createForm(puntaje,crearRango(puntaje),materia)
   makeGraphs()
   //getUsers()
   //createUserScore()
