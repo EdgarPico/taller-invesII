@@ -10,7 +10,7 @@ function createForm(puntaje,rango,materia){
       <div class="row mb-3">
         <label class="col-sm-2 col-form-label">Nombre Encuestado</label>
         <div class="col-sm-4">
-          <input type="text" class="form-control bg-secondary text-white" name="nombre" placeholder="Ingrese el nombre" id="nameU">
+          <input type="text" class="form-control bg-secondary text-white" name="nombre" placeholder="Ingrese el nombre" id="nameU" onkeydown="return soloLetras(event)">
         </div>
       </div>
       <div class="row mb-3">
@@ -24,6 +24,22 @@ function createForm(puntaje,rango,materia){
   </form>`
 }
 
+function soloLetras(event) {
+  var key = event.keyCode || event.which;
+  var tecla = String.fromCharCode(key).toLowerCase();
+  var letras = "abcdefghijklmnñopqrstuvwxyz";
+  
+  // Permitir borrar (Backspace) y dar espacios (Space)
+  if (key === 8 || key === 32) {
+    return true;
+  }
+
+  if (letras.indexOf(tecla) === -1) {
+    // Si la tecla presionada no es una letra, se previene la entrada
+    event.preventDefault();
+    return false;
+  }
+}
 
 const createUserScore = () =>{
   const userForm = document.getElementById('user-form')
@@ -98,6 +114,7 @@ const getUsers = async () => {
             <td>${userLi.materia}</td>
           <td>
             <button data-id="${userLi._id}" class="btn btn-danger">Eliminar</button>
+            <button data-id="${userLi._id}" class="updateButton btn btn-primary">Actualizar</button>
           </td>
         </tr>
   `
@@ -116,8 +133,42 @@ const getUsers = async () => {
       getUsers()
       alert('Usuario eliminado')
     }
+    const updateButton = document.querySelector(`[data-id="${user._id}"].updateButton`);
+    updateButton.onclick = e => {
+      e.preventDefault();
+      fillFormWithUserData(user);
+      const form = document.getElementById('userForm');
+      const updateButton = document.getElementById('updateButton');
+      updateButton.onclick = async () => {
+        const updatedUser = {
+          puntaje: form.elements['puntaje'].value,
+          posrango: form.elements['posrango'].value,
+          nombre: form.elements['nombre'].value,
+          materia: form.elements['materia'].value,
+        };
+        await fetch(`/users/${user._id}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(updatedUser),
+        });
+        getUsers();
+        alert('Usuario actualizado');
+        form.reset();
+      };
+    }
   })
 }
+
+const fillFormWithUserData = user => {
+  const form = document.getElementById('userForm');
+  form.elements['puntaje'].value = user.puntaje;
+  form.elements['posrango'].value = user.posrango;
+  form.elements['nombre'].value = user.nombre;
+  form.elements['materia'].value = user.materia;
+};
+
 
 function closeModal() {
   // Eliminar el modal del documento

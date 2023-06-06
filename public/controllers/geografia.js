@@ -1197,10 +1197,11 @@ function alertResults (sender) {
     const intArray = arrValores.map(str => parseInt(str));
     
     const sum = intArray.reduce((accumulator, currentValue) => accumulator + currentValue);
-    resultado(sum);
+    const materia = 'Geografia'
+    resultado(sum,materia);
 }
 
-function resultado(puntaje){
+function resultado(puntaje,materia){
     const content = document.getElementById('dispResults');
     content.innerHTML = `
     <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
@@ -1220,14 +1221,15 @@ function resultado(puntaje){
           +`</div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary" id="btnResultado" onClick="displayDA(`+puntaje+`)">Graficas</button>
+            <button type="button" class="btn btn-primary" id="btnResultado" onClick="displayDA(${puntaje},'${materia}')">Graficas</button>
           </div>
         </div>
       </div>
     </div> `;
 }
-function displayDA(puntaje){
+function displayDA(puntaje,materia){
   localStorage.setItem('puntaje', puntaje);
+  localStorage.setItem('materia', materia);
   window.open('../pagination/resultados.html', '_blank');
 }
 

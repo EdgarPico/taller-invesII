@@ -41,6 +41,7 @@ app.use(express.static(publicPath));
 app.post('/users',user.create)
 app.get('/users',user.list)
 app.delete('/users/:id',user.destroy)
+app.put('/users/:id',user.update)
 
 app.get('/archivos',archivo.list)
 

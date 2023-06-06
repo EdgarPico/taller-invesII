@@ -10,6 +10,10 @@
     <title>Document</title>
 </head>
 <body id="body-results">
+  <div class="container mt-4">
+    <h2>Resultados Graficos y Estadisticos</h2>
+  </div>
+  
     <div id="graNiveles">
         <canvas id="myChart"></canvas>
         <canvas id="myChart2"></canvas>
@@ -19,6 +23,7 @@
     <div id="usuarios" class="container mt-4 "></div>
 
     <div class="container mt-2" id="list">
+
       <h3>Historial de usuarios</h3>
         <table class="table table-dark table-hover" id="listTBL">
             <thead>
@@ -33,6 +38,19 @@
             </thead>
             <tbody id="bodyTable"></tbody>
         </table>
+
+        <form id="userForm">
+          <label class="form-label" for="puntaje">Puntaje:</label>
+          <input class="form-control" type="text" id="puntaje" name="puntaje">
+          <label class="form-label" for="posrango">Posición en el rango:</label>
+          <input class="form-control" type="text" id="posrango" name="posrango">
+          <label class="form-label" for="nombre">Nombre:</label>
+          <input class="form-control" type="text" id="nombre" name="nombre">
+          <label class="form-label" for="materia">Materia:</label>
+          <input class="form-control" type="text" id="materia" name="materia">
+          <button type="button" id="updateButton" class="btn btn-warning mt-2">Actualizar</button>
+        </form>
+
         <h3>Historial de archivos</h3>
         <form action="/files" method="post" id="formArchivo" enctype="multipart/form-data">
           <input type="file" name="file">
