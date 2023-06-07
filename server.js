@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const user = require('./user.controller')
+const rol = require('./rol.controlller')
 const archivo = require('./file.controller')
 const File = require('./File')
 const path = require('path');
@@ -42,6 +43,11 @@ app.post('/users',user.create)
 app.get('/users',user.list)
 app.delete('/users/:id',user.destroy)
 app.put('/users/:id',user.update)
+
+app.post('/roles',rol.create)
+app.get('/roles',rol.list)
+app.delete('/roles/:id',rol.destroy)
+app.put('/roles/:id',rol.update)
 
 app.get('/archivos',archivo.list)
 

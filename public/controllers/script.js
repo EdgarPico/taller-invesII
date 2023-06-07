@@ -2,6 +2,7 @@ var puntaje = localStorage.getItem('puntaje');
 var materia = localStorage.getItem('materia');
 //createForm(puntaje)
 function createForm(puntaje,rango,materia){
+
   const content=document.getElementById('usuarios')
   content.innerHTML = ` 
   <form id="user-form" enctype="multipart/form-data">
@@ -21,6 +22,26 @@ function createForm(puntaje,rango,materia){
       </div>
       <button type="submit" class="btn btn-warning" onclick="createUserScore()">Guardar Historial</button>
       <button type="button" class="btn btn-warning" onclick="mostHistorial()">Mostrar Historial</button>
+  </form>`
+}
+function createFormRol(){
+
+  const content=document.getElementById('rolesU')
+
+  content.innerHTML = ` 
+  <form id="rol-form" enctype="multipart/form-data">
+      <div class="row mb-3">
+        <label class="col-sm-2 col-form-label">Nombre Rol</label>
+        <div class="col-sm-4">
+          <input type="text" class="form-control bg-secondary text-white" name="nombreRol" placeholder="Ingrese el nombre" id="nameU" onkeydown="return soloLetras(event)">
+        </div>
+      </div>
+      <div class="row mb-3">
+        <label class="col-sm-2 col-form-label" hidden>Rango Obtenido</label>
+          <div class="col-sm-4">
+        </div>
+      </div>
+      <button type="submit" class="btn btn-warning" onclick="createRol()">Guardar Historial</button>
   </form>`
 }
 
@@ -60,6 +81,25 @@ const createUserScore = () =>{
   alert('El puntaje ha sido almacenado')
   getUsers()
 }
+const createRol = () =>{
+  const userForm = document.getElementById('rol-form')
+  userForm.onsubmit = async (e) =>{
+    e.preventDefault()
+    const formData = new FormData(userForm)
+   // console.log(formData.get('puntaje'));
+    const data = Object.fromEntries(formData.entries())
+    console.log(data);
+    await fetch('/roles',{
+      method: 'POST',
+      body: JSON.stringify(data),
+      headers:{
+        'Content-Type': 'application/json'
+      }
+    })
+  }
+  alert('El puntaje ha sido almacenado')
+  getUsers()
+}
 /*
 const loadFile = () => {
   const userFile = document.getElementById('formArchivo')
@@ -86,6 +126,7 @@ function mostHistorial(){
     if (divhisto.style.display === "none") {
         divhisto.style.display = "block"
         getUsers()
+        getRoles()
         getFiles()
     } else {
       divhisto.style.display ="none"
@@ -161,12 +202,64 @@ const getUsers = async () => {
   })
 }
 
-const fillFormWithUserData = user => {
-  const form = document.getElementById('userForm');
-  form.elements['puntaje'].value = user.puntaje;
-  form.elements['posrango'].value = user.posrango;
-  form.elements['nombre'].value = user.nombre;
-  form.elements['materia'].value = user.materia;
+const getRoles = async () => {
+  const response = await fetch('/roles')
+  const roles = await response.json()
+  console.log(roles);
+  const template = rolLi => `
+        <tr>
+            <td>${rolLi.nombreRol}</td>
+          <td>
+            <button data-id="${rolLi._id}" class="btn btn-danger">Eliminar</button>
+            <button data-id="${rolLi._id}" class="updateButtonRol btn btn-primary">Actualizar</button>
+          </td>
+        </tr>
+  `
+  const userList = document.getElementById('listTBLRol')
+  const bodyTbl = userList.querySelector('#bodyTable')
+
+  bodyTbl.innerHTML = roles.map(rol => template(rol)).join('')
+
+  roles.forEach(rol => {
+    const rolNode = document.querySelector(`[data-id="${rol._id}"]`)
+    rolNode.onclick = async e =>{
+      await fetch(`/roles/${rol._id}`,{
+        method: 'DELETE',
+      })
+      //userNode.parentNode.remove()
+      getRoles()
+      alert('Rol eliminado')
+    }
+
+    const updateButton = document.querySelector(`[data-id="${rol._id}"].updateButtonRol`);
+    updateButton.onclick = e => {
+      e.preventDefault();
+      fillFormWithUserData(rol);
+      const form = document.getElementById('rolForm');
+      const updateButtonRol = document.getElementById('updateButtonRol');
+
+      updateButtonRol.onclick = async () => {
+        const updatedRol = {
+          nombreRol: form.elements['nombreRol'].value,
+        };
+        await fetch(`/roles/${rol._id}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(updatedRol),
+        });
+        getRoles();
+        alert('Rol actualizado');
+        form.reset();
+      };
+    }
+  })
+}
+
+const fillFormWithUserData = rol => {
+  const form = document.getElementById('rolForm');
+  form.elements['nombreRol'].value = rol.nombreRol;
 };
 
 
@@ -343,6 +436,8 @@ window.onload = () =>{
   console.log('soy la : ',materia);
   cargarGraficas()
   createForm(puntaje,crearRango(puntaje),materia)
+  createFormRol()
+
   makeGraphs()
   //getUsers()
   //createUserScore()

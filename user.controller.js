@@ -1,5 +1,4 @@
 const Users = require('./User')
-
 const User = {
     list: async (req,res) => {
         const users = await Users.find()
@@ -28,5 +27,28 @@ const User = {
 
     }
 }
-
 module.exports = User
+
+const userControllerRol = {
+    assignRole: async (req, res) => {
+
+    const { userId, roleId } = req.params;
+  
+    const user = await User.findById({_id: id});
+
+    const role = await Role.findById({_id: id});
+
+    if (!user || !role) {
+        return res.status(404).json({ error: 'User o rol no encontrado' });
+    }
+       
+    user.role = role;
+
+    await user.save();
+  
+    res.status(200).json({ message: 'Role asignado' });
+
+    },
+  
+  };
+  module.exports  = userControllerRol

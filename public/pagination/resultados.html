@@ -21,6 +21,7 @@
     
     
     <div id="usuarios" class="container mt-4 "></div>
+    <div id="rolesU" class="container mt-4 "></div>
 
     <div class="container mt-2" id="list">
 
@@ -39,6 +40,16 @@
             <tbody id="bodyTable"></tbody>
         </table>
 
+        <table class="table table-dark table-hover" id="listTBLRol">
+          <thead>
+            <tr>
+              <th scope="col">Nombre Rol</th>
+              <th scope="col">Accion</th>
+            </tr>
+          </thead>
+          <tbody id="bodyTable"></tbody>
+      </table>
+
         <form id="userForm">
           <label class="form-label" for="puntaje">Puntaje:</label>
           <input class="form-control" type="text" id="puntaje" name="puntaje">
@@ -49,6 +60,12 @@
           <label class="form-label" for="materia">Materia:</label>
           <input class="form-control" type="text" id="materia" name="materia">
           <button type="button" id="updateButton" class="btn btn-warning mt-2">Actualizar</button>
+        </form>
+
+        <form id="rolForm">
+          <label class="form-label" for="nombreRol">Nombre Rol:</label>
+          <input class="form-control" type="text" id="nombreRol" name="nombreRol">
+          <button type="button" id="updateButtonRol" class="btn btn-warning mt-2">Actualizar</button>
         </form>
 
         <h3>Historial de archivos</h3>
