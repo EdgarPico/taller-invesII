@@ -3,6 +3,7 @@ const User = {
     list: async (req,res) => {
         const users = await Users.find()
         res.status(200).send(users)
+        console.log(users);
     },
     create: async (req,res) =>{
         const user = new Users(req.body)
@@ -19,7 +20,7 @@ const User = {
     destroy: async (req,res) =>{
         const {id} = req.params
         const user = await Users.findOne({_id: id})
-        //console.log(user);
+        //
         if (user) {
             user.deleteOne()
         }
@@ -28,27 +29,3 @@ const User = {
     }
 }
 module.exports = User
-
-const userControllerRol = {
-    assignRole: async (req, res) => {
-
-    const { userId, roleId } = req.params;
-  
-    const user = await User.findById({_id: id});
-
-    const role = await Role.findById({_id: id});
-
-    if (!user || !role) {
-        return res.status(404).json({ error: 'User o rol no encontrado' });
-    }
-       
-    user.role = role;
-
-    await user.save();
-  
-    res.status(200).json({ message: 'Role asignado' });
-
-    },
-  
-  };
-  module.exports  = userControllerRol

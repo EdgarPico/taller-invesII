@@ -100,25 +100,8 @@ const createRol = () =>{
   alert('El puntaje ha sido almacenado')
   getUsers()
 }
-/*
-const loadFile = () => {
-  const userFile = document.getElementById('formArchivo')
-  userFile.onsubmit = async (e) =>{
-    e.preventDefault()
-    const formData = new FormData(userFile)
-   // console.log(formData.get('puntaje'));
-    const data = Object.fromEntries(formData.entries())
-    console.log(data);
-    await fetch('/files',{
-      method: 'POST',
-      body: JSON.stringify(data),
-      headers:{
-        'Content-Type': 'application/json'
-      }
-    })
-  }
-}
-*/
+
+
 function mostHistorial(){
 
     var divhisto = document.getElementById('list')
@@ -146,13 +129,14 @@ function mostFiles(){
 const getUsers = async () => {
   const response = await fetch('/users')
   const users = await response.json()
-  console.log(users);
+  //console.log("GETUSUR: "+users);
   const template = userLi => `
         <tr>
             <td>${userLi.puntaje}</td>
             <td>${userLi.posrango}</td>
             <td>${userLi.nombre}</td>
             <td>${userLi.materia}</td>
+            <td>${userLi.rol}</td>
           <td>
             <button data-id="${userLi._id}" class="btn btn-danger">Eliminar</button>
             <button data-id="${userLi._id}" class="updateButton btn btn-primary">Actualizar</button>
@@ -186,6 +170,7 @@ const getUsers = async () => {
           posrango: form.elements['posrango'].value,
           nombre: form.elements['nombre'].value,
           materia: form.elements['materia'].value,
+          rol: form.elements['rol'].value,
         };
         await fetch(`/users/${user._id}`, {
           method: 'PUT',
@@ -442,3 +427,19 @@ window.onload = () =>{
   //getUsers()
   //createUserScore()
 }
+
+
+ // Obtener las opciones desde el servidor
+ fetch('/opciones')
+ .then(response => response.json())
+ .then(opciones => {
+   const select = document.getElementById('opcionesSelect');
+
+   opciones.forEach(opcion => {
+     const option = document.createElement('option');
+     option.value = opcion.valor;
+     option.textContent = opcion.nombre;
+     select.appendChild(option);
+   });
+ })
+ .catch(error => console.error(error));

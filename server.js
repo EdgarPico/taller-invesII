@@ -12,6 +12,8 @@ const { json } = require('body-parser');
 const app = express();
 const upload = multer()
 const port = 3000;
+const privilegio = require('./privilegios.controller') //
+
 
 app.use(express.json())
 
@@ -51,21 +53,14 @@ app.put('/roles/:id',rol.update)
 
 app.get('/archivos',archivo.list)
 
+app.get('/privilegios', privilegio.list);
+
 
 app.get('/', (req, res) => {
   const filePath = path.join(__dirname, 'index.html');
   res.sendFile(filePath);
 });
-/*
-exec('saludo.R')
-  .then((result) => {
-    const stdout = result.stdout;
-    console.log(stdout);
-  })
-  .catch((error) => {
-    console.error('Error al ejecutar el script de R:', error);
-  });
-*/
+
 app.post('/files', upload.single('file'), async (req, res) => {
   try {
     const uploadedFile = req.file;
@@ -102,6 +97,7 @@ app.post('/graphs', (req, res) => {
     puntaje: item.puntaje,
     nombre: item.nombre,
     materia: item.materia
+    //rol: item.rol
 
   }));
 

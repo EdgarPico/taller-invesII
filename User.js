@@ -5,5 +5,6 @@ const Users = mongoose.model('User',{
     nombre:{type: String},
     posrango:{type: Number},
     materia: { type: String },
+    rol: { type: String },
 })
 module.exports = Users
