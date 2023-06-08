@@ -1,7 +1,7 @@
-puntaje,nombre,materia
-150,Edgar,Geografia
-200,Lilith,Geografia
-30,Tolen,Español
-180,Pancha,Español
-20,Alien,Español
-20,patata,Español
+puntaje,nombre,materia,nivelRol
+200,Lilith,Geografia,Sin rol
+30,Tolencillo,Español,usuarios
+180,Pancho,Español,usuarios
+20,Alienes,Español,Trabajador
+100,jones,Espanolos,Admisnistradores
+25,Walter,Español,usuarios

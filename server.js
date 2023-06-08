@@ -13,6 +13,9 @@ const app = express();
 const upload = multer()
 const port = 3000;
 
+
+
+
 app.use(express.json())
 
 // MongoDB Atlas connection string
@@ -101,8 +104,8 @@ app.post('/graphs', (req, res) => {
   const datos = objetoPro.map(item => ({
     puntaje: item.puntaje,
     nombre: item.nombre,
-    materia: item.materia
-
+    materia: item.materia,
+    nivelRol: item.nivelRol
   }));
 
   const convertirACSV = (objeto) => {

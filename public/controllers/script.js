@@ -98,7 +98,7 @@ const createRol = () =>{
     })
   }
   alert('El puntaje ha sido almacenado')
-  getUsers()
+  getRoles()
 }
 /*
 const loadFile = () => {
@@ -127,6 +127,7 @@ function mostHistorial(){
         divhisto.style.display = "block"
         getUsers()
         getRoles()
+        getRolesList()
         getFiles()
     } else {
       divhisto.style.display ="none"
@@ -153,9 +154,10 @@ const getUsers = async () => {
             <td>${userLi.posrango}</td>
             <td>${userLi.nombre}</td>
             <td>${userLi.materia}</td>
+            <td>${userLi.nivelRol}</td>
           <td>
             <button data-id="${userLi._id}" class="btn btn-danger">Eliminar</button>
-            <button data-id="${userLi._id}" class="updateButton btn btn-primary">Actualizar</button>
+            <button data-id="${userLi._id}" class="updateButtonUser btn btn-primary">Actualizar</button>
           </td>
         </tr>
   `
@@ -174,18 +176,22 @@ const getUsers = async () => {
       getUsers()
       alert('Usuario eliminado')
     }
-    const updateButton = document.querySelector(`[data-id="${user._id}"].updateButton`);
+
+
+    const updateButton = document.querySelector(`[data-id="${user._id}"].updateButtonUser`);
     updateButton.onclick = e => {
       e.preventDefault();
-      fillFormWithUserData(user);
+      fillFormWithUsers(user);
       const form = document.getElementById('userForm');
-      const updateButton = document.getElementById('updateButton');
+      const updateButton = document.getElementById('updateButtonUser');
+
       updateButton.onclick = async () => {
         const updatedUser = {
           puntaje: form.elements['puntaje'].value,
           posrango: form.elements['posrango'].value,
           nombre: form.elements['nombre'].value,
           materia: form.elements['materia'].value,
+          nivelRol: form.elements['nivelRol'].value,
         };
         await fetch(`/users/${user._id}`, {
           method: 'PUT',
@@ -257,10 +263,35 @@ const getRoles = async () => {
   })
 }
 
+const getRolesList = async () => {
+  const response = await fetch('/roles')
+  const roles = await response.json()
+  console.log(roles);
+  const template = rolLi => `
+        
+      <option value="${rolLi.nombreRol}">
+        ${rolLi.nombreRol}
+      </option>
+          
+  `
+  
+  const userList = document.getElementById('listaRoles')
+
+  userList.innerHTML = roles.map(rol => template(rol)).join('')
+}
+
 const fillFormWithUserData = rol => {
   const form = document.getElementById('rolForm');
   form.elements['nombreRol'].value = rol.nombreRol;
 };
+const fillFormWithUsers = user => {
+  const form = document.getElementById('userForm');
+  form.elements['puntaje'].value = user.puntaje;
+  form.elements['posrango'].value = user.posrango;
+  form.elements['nombre'].value = user.nombre;
+  form.elements['materia'].value = user.materia;
+};
+
 
 
 function closeModal() {
@@ -437,7 +468,6 @@ window.onload = () =>{
   cargarGraficas()
   createForm(puntaje,crearRango(puntaje),materia)
   createFormRol()
-
   makeGraphs()
   //getUsers()
   //createUserScore()

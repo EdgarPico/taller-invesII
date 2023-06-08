@@ -33,12 +33,15 @@
                 <th scope="col">Rango Obtenido</th>
                 <th scope="col">Nombre</th>
                 <th scope="col">Materia</th>
+                <th scope="col">Rol Asignado</th>
                 <th scope="col">Accion</th>
 
               </tr>
             </thead>
             <tbody id="bodyTable"></tbody>
         </table>
+
+        
 
         <table class="table table-dark table-hover" id="listTBLRol">
           <thead>
@@ -49,6 +52,9 @@
           </thead>
           <tbody id="bodyTable"></tbody>
       </table>
+        
+        
+
 
         <form id="userForm">
           <label class="form-label" for="puntaje">Puntaje:</label>
@@ -59,7 +65,11 @@
           <input class="form-control" type="text" id="nombre" name="nombre">
           <label class="form-label" for="materia">Materia:</label>
           <input class="form-control" type="text" id="materia" name="materia">
-          <button type="button" id="updateButton" class="btn btn-warning mt-2">Actualizar</button>
+          <div class="container P-2 mb-2 mt-2">
+            <h4>Asignar Roles a los usuarios</h4>
+            <select name="nivelRol" id="listaRoles"></select>
+          </div>
+          <button type="button" id="updateButtonUser" class="btn btn-warning mt-2">Actualizar</button>
         </form>
 
         <form id="rolForm">
@@ -85,8 +95,9 @@
         </table>
         <h3>Graficos generados con R</h3>
       <div class="graficos-view">
-        <img src="../images/graficaBar.png" alt="Grafico de barras" width="40%">
-        <img src="../images/grafica.png" alt="Grafico de puntos" width="40%">
+        <img src="../images/graficaBar.png" alt="Grafico de barras" width="30%">
+        <img src="../images/grafica.png" alt="Grafico de puntos" width="30%">
+        <img src="../images/graficaRoles.png" alt="Grafico de puntos" width="30%">
       </div>  
       
 
